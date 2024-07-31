@@ -3,6 +3,8 @@ import { TonConnectButton } from "@tonconnect/ui-react";
 import { useMainContract } from "./hooks/useMainContract";
 import { useTonConnect } from "./hooks/useTonConnect";
 import { fromNano } from "@ton/core";
+import WebApp from "@twa-dev/sdk";
+
 
 function App() {
   const {
@@ -15,6 +17,10 @@ function App() {
   } = useMainContract();
 
   const { connected } = useTonConnect()
+
+ // Используем WebApp для получения данных пользователя
+ const initData = WebApp.initDataUnsafe;
+ const userData = initData ? initData.user : null;
 
   return (
     <div>
@@ -33,6 +39,27 @@ function App() {
           <b>Counter Value</b>
           <div>{counter_value ?? "Loading..."}</div>
         </div>
+
+        {/* Отображаем информацию о пользователе, если она доступна */}
+        {userData ? (
+          <div className='Card'>
+            <b>User Info</b>
+            <div className='Hint'>
+              <p>User ID: {userData.id}</p>
+              <p>Username: {userData.username}</p>
+              <p>First Name: {userData.first_name}</p>
+              <p>Last Name: {userData.last_name}</p>
+              <p>Language Code: {userData.language_code}</p>
+              <p>Is Bot: {userData.is_bot ? "Yes" : "No"}</p>
+              <p>Is Premium: {userData.is_premium ? "Yes" : "No"}</p>
+            </div>
+          </div>
+        ) : (
+          <div className='Card'>
+            <b>User Info</b>
+            <div className='Hint'>User data not available</div>
+          </div>
+        )}
 
         {connected && (
               <a
@@ -66,6 +93,9 @@ function App() {
                 Get 0.7 TON withdrawal
               </a>
             )}
+
+        <br></br>
+
 
       </div>
     </div>
