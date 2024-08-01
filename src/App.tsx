@@ -16,7 +16,7 @@ function App() {
     contract_balance
   } = useMainContract();
 
-  const { connected } = useTonConnect()
+  const { connected, walletAddress } = useTonConnect()
 
  // Используем WebApp для получения данных пользователя
  const initData = WebApp.initDataUnsafe;
@@ -62,6 +62,14 @@ function App() {
           <div className='Card'>
             <b>User Info</b>
             <div className='Hint'>User data not available</div>
+          </div>
+        )}
+
+        {/* Отображаем адрес подключенного кошелька после информации о пользователе */}
+        {connected && walletAddress && (
+          <div className="Card">
+            <b>Connected Wallet Address</b>
+            <div className="Hint">{walletAddress.toString()}</div>
           </div>
         )}
 

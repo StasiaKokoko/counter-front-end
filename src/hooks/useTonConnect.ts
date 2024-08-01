@@ -1,8 +1,11 @@
 import { useTonConnectUI } from '@tonconnect/ui-react';
 import { Sender, SenderArguments } from 'ton-core';
+import { Address } from 'ton-core';
 
-export function useTonConnect(): { sender: Sender; connected: boolean } {
+export function useTonConnect(): { sender: Sender; connected: boolean; walletAddress?: Address } {
   const [tonConnectUI] = useTonConnectUI();
+
+  const walletAddress = tonConnectUI.wallet ? Address.parse(tonConnectUI.wallet.account.address) : undefined;
 
   return {
     sender: {
@@ -20,5 +23,6 @@ export function useTonConnect(): { sender: Sender; connected: boolean } {
       },
     },
     connected: tonConnectUI.connected,
+    walletAddress, // Возвращаем адрес кошелька
   };
 }
