@@ -4,6 +4,7 @@ import { useMainContract } from "./hooks/useMainContract";
 import { useTonConnect } from "./hooks/useTonConnect";
 import { fromNano } from "@ton/core";
 import WebApp from "@twa-dev/sdk";
+import { useEffect } from "react";
 
 
 function App() {
@@ -22,6 +23,10 @@ function App() {
  const initData = WebApp.initDataUnsafe;
  const userData = initData ? initData.user : null;
 
+ const showAlert = () => {
+  WebApp.showAlert(`Current Telegram theme is: ${WebApp.colorScheme}`);
+};
+  
   return (
     <div>
       <div>
@@ -60,6 +65,14 @@ function App() {
             <div className='Hint'>User data not available</div>
           </div>
         )}
+
+        <a
+          onClick={() => {
+            showAlert();
+          }}
+        >
+          Show Alert
+        </a>
 
         {connected && (
               <a
